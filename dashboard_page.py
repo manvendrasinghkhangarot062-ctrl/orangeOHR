@@ -9,15 +9,12 @@ class DashboardPage:
     ADMIN_MENU = (By.XPATH, "//span[text()='Admin']")
 
     # System Users Page Locators
-    SYSTEM_USER_USERNAME_INPUT = (By.XPATH, "//label[text()='Username']/../following-sibling::div//input")
-    USER_ROLE_DROPDOWN = (By.XPATH, "//label[text()='User Role']/../following-sibling::div//i[contains(@class, 'oxd-select-text--arrow')]")
-    USER_ROLE_OPTION_ADMIN = (By.XPATH, "//div[@role='listbox']//span[text()='Admin']")
-    
-    EMPLOYEE_NAME_INPUT = (By.XPATH, "//label[text()='Employee Name']/../following-sibling::div//input")
-    EMPLOYEE_NAME_OPTION = (By.XPATH, "//div[@role='listbox']//span")
-    
-    STATUS_DROPDOWN = (By.XPATH, "//label[text()='Status']/../following-sibling::div//i[contains(@class, 'oxd-select-text--arrow')]")
-    STATUS_OPTION_ENABLED = (By.XPATH, "//div[@role='listbox']//span[text()='Enabled']")
+    SYSTEM_USER_USERNAME_INPUT = (By.XPATH, "(//input[contains(@class, 'oxd-input')])[2]")
+    USER_ROLE_DROPDOWN = (By.XPATH, "(//div[contains(@class, 'oxd-select-text')])[1]")
+    EMPLOYEE_NAME_INPUT = (By.XPATH, "//input[@placeholder='Type for hints...']")
+    STATUS_DROPDOWN = (By.XPATH, "(//div[contains(@class, 'oxd-select-text')])[2]")
+    # For options (User Role, Status, Employee Name), we will use dynamic xpath in action methods:
+    # "//div[@role='listbox']//span[contains(text(), '{}')]"
     
     SEARCH_BUTTON = (By.XPATH, "//button[@type='submit' and normalize-space()='Search']")
     ADD_USER_BUTTON = (By.XPATH, "//button[@type='button' and normalize-space(.)='Add']")
@@ -76,3 +73,12 @@ class DashboardPage:
         """Generic send_keys method"""
         self.driver.find_element(*locator).send_keys(text)
 
+    def select_dropdown_option(self, option_text):
+        """
+        Generic method to select an option from any open listbox dropdown.
+        It uses dynamic xpath to find the option with the matching text.
+        """
+        import time
+        time.sleep(1) # Wait for listbox to render
+        dynamic_locator = (By.XPATH, f"//div[@role='listbox']//span[contains(text(), '{option_text}')]")
+        self.driver.find_element(*dynamic_locator).click()
