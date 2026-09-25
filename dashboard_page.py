@@ -12,9 +12,12 @@ class DashboardPage:
     SYSTEM_USER_USERNAME_INPUT = (By.XPATH, "(//input[contains(@class, 'oxd-input')])[2]")
     USER_ROLE_DROPDOWN = (By.XPATH, "(//div[contains(@class, 'oxd-select-text')])[1]")
     EMPLOYEE_NAME_INPUT = (By.XPATH, "//input[@placeholder='Type for hints...']")
-    STATUS_DROPDOWN = (By.XPATH, "(//div[contains(@class, 'oxd-select-text')])[2]")
-    # For options (User Role, Status, Employee Name), we will use dynamic xpath in action methods:
-    # "//div[@role='listbox']//span[contains(text(), '{}')]"
+    STATUS_DROPDOWN = (By.XPATH, "(//div[contains(@class, 'oxd-select-text')])[4]")
+    
+    # Dropdown Options
+    USER_ROLE_OPTION_ADMIN = (By.XPATH, "//div[@role='listbox']//span[contains(text(), 'Admin')]")
+    EMPLOYEE_NAME_OPTION = (By.XPATH, "//div[@role='listbox']//span") # Selects the very first autocomplete option
+    STATUS_OPTION_ENABLED = (By.XPATH, "//div[@role='listbox']//span[text()='Enabled']")
     
     SEARCH_BUTTON = (By.XPATH, "//button[@type='submit' and normalize-space()='Search']")
     ADD_USER_BUTTON = (By.XPATH, "//button[@type='button' and normalize-space(.)='Add']")

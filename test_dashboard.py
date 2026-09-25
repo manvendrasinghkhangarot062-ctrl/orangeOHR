@@ -29,6 +29,9 @@ class TestDashboard:
     def test_tc10_search_input(self):
         dashboard_page = DashboardPage(self.driver)
         
+        # Search input ke render hone ka wait karein taaki flakiness na aaye
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(DashboardPage.SEARCH_INPUT))
+        
         # Search input ki visibility aur clickability/enabled state dono verify karein
         assert dashboard_page.is_visible(DashboardPage.SEARCH_INPUT), "Dashboard Search input is not visible"
         assert dashboard_page.is_enabled(DashboardPage.SEARCH_INPUT), "Dashboard Search input is not enabled/clickable"
@@ -79,8 +82,8 @@ class TestDashboard:
         assert dashboard_page.is_visible(DashboardPage.EMPLOYEE_NAME_INPUT), "Employee Name input not visible"
         assert dashboard_page.is_enabled(DashboardPage.EMPLOYEE_NAME_INPUT), "Employee Name input not enabled"
         dashboard_page.click_element(DashboardPage.EMPLOYEE_NAME_INPUT)
-        dashboard_page.enter_text(DashboardPage.EMPLOYEE_NAME_INPUT, "Demo Open Source")
-        time.sleep(2) # Autocomplete options aane ka wait
+        dashboard_page.enter_text(DashboardPage.EMPLOYEE_NAME_INPUT, "a")
+        time.sleep(3) # Autocomplete options aane ka wait badha diya
         
         # Verify and select the autocomplete option
         assert dashboard_page.is_visible(DashboardPage.EMPLOYEE_NAME_OPTION), "Employee Name autocomplete option not visible"
@@ -92,7 +95,7 @@ class TestDashboard:
         assert dashboard_page.is_visible(DashboardPage.STATUS_DROPDOWN), "Status dropdown not visible"
         assert dashboard_page.is_enabled(DashboardPage.STATUS_DROPDOWN), "Status dropdown not enabled"
         dashboard_page.click_element(DashboardPage.STATUS_DROPDOWN)
-        time.sleep(1) # Dropdown options khulne ka wait
+        time.sleep(3) # Dropdown options khulne ka wait badhaya
         
         # Step 6: Verify and select 'Enabled' from dropdown
         assert dashboard_page.is_visible(DashboardPage.STATUS_OPTION_ENABLED), "Enabled option in Status not visible"
